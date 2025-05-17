@@ -1,0 +1,20 @@
+import os
+import time
+from dotenv import load_dotenv
+
+load_dotenv()
+
+TARGET_INCOME = int(os.getenv("TARGET_INCOME", 1000))
+INTERVAL = int(os.getenv("TRAINING_INTERVAL_HOURS", 12)) * 3600
+
+def run_cycle():
+    print("REVENUE-01 is working...")
+    os.system("python generate_product.py")
+    os.system("python gumroad_publisher.py")
+    os.system("python autopost_reddit.py")
+    os.system("python autopost_pinterest.py")
+    print("Cycle completed. Waiting for next training...")
+
+while True:
+    run_cycle()
+    time.sleep(INTERVAL)
